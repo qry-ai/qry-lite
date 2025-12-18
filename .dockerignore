@@ -1,0 +1,6 @@
+api/.env
+api/.env.*
+web/.env
+web/.env.*
+node_modules
+.git

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.gateway.v1;
+
+message QueryRequest {
+  string account_id = 1;
+  string session_id = 2;
+  string content = 3;
+}
+
+message QueryResponse {
+  string token = 1;
+  bool end_of_stream = 2;
+}
+
+service GatewayService {
+  rpc Query(QueryRequest) returns (stream QueryResponse);
+}
