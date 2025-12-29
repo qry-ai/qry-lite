@@ -24,7 +24,7 @@ const Checkbox = ({
 
   const variantClasses = {
     default: `
-      border-slate-200/60 bg-slate-50/80 backdrop-blur-sm
+      border-slate-200/60 bg-white-50/80 dark:bg-slate-50/80 backdrop-blur-sm
       ${checked ? 'bg-slate-700 border-slate-700' : 'hover:bg-slate-100/90 hover:border-slate-300/80'}
       focus:ring-slate-300/50
     `,
@@ -53,7 +53,7 @@ const Checkbox = ({
   const checkboxClasses = `${baseClasses} ${variantClasses[variant]} ${disabledClasses}`.trim();
 
   const labelClasses = `
-    ml-2 text-sm font-medium text-slate-700
+    ml-2 text-sm font-medium text-white/80 light:text-slate-700
     transition-colors duration-300
     ${disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
   `;

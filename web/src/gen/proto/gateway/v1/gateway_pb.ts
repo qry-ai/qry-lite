@@ -2,15 +2,15 @@
 // @generated from file proto/gateway/v1/gateway.proto (package api.gateway.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file proto/gateway/v1/gateway.proto.
  */
 export const file_proto_gateway_v1_gateway: GenFile = /*@__PURE__*/
-  fileDesc("Ch5wcm90by9nYXRld2F5L3YxL2dhdGV3YXkucHJvdG8SDmFwaS5nYXRld2F5LnYxIkcKDFF1ZXJ5UmVxdWVzdBISCgphY2NvdW50X2lkGAEgASgJEhIKCnNlc3Npb25faWQYAiABKAkSDwoHY29udGVudBgDIAEoCSI1Cg1RdWVyeVJlc3BvbnNlEg0KBXRva2VuGAEgASgJEhUKDWVuZF9vZl9zdHJlYW0YAiABKAgyWAoOR2F0ZXdheVNlcnZpY2USRgoFUXVlcnkSHC5hcGkuZ2F0ZXdheS52MS5RdWVyeVJlcXVlc3QaHS5hcGkuZ2F0ZXdheS52MS5RdWVyeVJlc3BvbnNlMAFCuwEKEmNvbS5hcGkuZ2F0ZXdheS52MUIMR2F0ZXdheVByb3RvUAFaPWdpdGh1Yi5jb20vcXJ5LWFpL3FyeS1saXRlL2FwaS9nZW4vcHJvdG8vZ2F0ZXdheS92MTtnYXRld2F5djGiAgNBR1iqAg5BcGkuR2F0ZXdheS5WMcoCDkFwaVxHYXRld2F5XFYx4gIaQXBpXEdhdGV3YXlcVjFcR1BCTWV0YWRhdGHqAhBBcGk6OkdhdGV3YXk6OlYxYgZwcm90bzM");
+  fileDesc("Ch5wcm90by9nYXRld2F5L3YxL2dhdGV3YXkucHJvdG8SDmFwaS5nYXRld2F5LnYxInwKDFF1ZXJ5UmVxdWVzdBISCgphY2NvdW50X2lkGAEgASgJEhIKCnNlc3Npb25faWQYAiABKAkSDwoHY29udGVudBgDIAEoCRIzCg1jb250ZXh0X2xldmVsGAQgASgOMhwuYXBpLmdhdGV3YXkudjEuQ29udGV4dExldmVsIjUKDVF1ZXJ5UmVzcG9uc2USDQoFdG9rZW4YASABKAkSFQoNZW5kX29mX3N0cmVhbRgCIAEoCCqNAQoMQ29udGV4dExldmVsEhwKGENIQVRfQ09OVEVYVF9VTlNQRUNJRklFRBAAEhUKEUNIQVRfQ09OVEVYVF9OT05FEAESGAoUQ0hBVF9DT05URVhUX1NVTU1BUlkQAhIXChNDSEFUX0NPTlRFWFRfUkVDRU5UEAMSFQoRQ0hBVF9DT05URVhUX0ZVTEwQBDJYCg5HYXRld2F5U2VydmljZRJGCgVRdWVyeRIcLmFwaS5nYXRld2F5LnYxLlF1ZXJ5UmVxdWVzdBodLmFwaS5nYXRld2F5LnYxLlF1ZXJ5UmVzcG9uc2UwAUK7AQoSY29tLmFwaS5nYXRld2F5LnYxQgxHYXRld2F5UHJvdG9QAVo9Z2l0aHViLmNvbS9xcnktYWkvcXJ5LWxpdGUvYXBpL2dlbi9wcm90by9nYXRld2F5L3YxO2dhdGV3YXl2MaICA0FHWKoCDkFwaS5HYXRld2F5LlYxygIOQXBpXEdhdGV3YXlcVjHiAhpBcGlcR2F0ZXdheVxWMVxHUEJNZXRhZGF0YeoCEEFwaTo6R2F0ZXdheTo6VjFiBnByb3RvMw");
 
 /**
  * @generated from message api.gateway.v1.QueryRequest
@@ -30,6 +30,11 @@ export type QueryRequest = Message<"api.gateway.v1.QueryRequest"> & {
    * @generated from field: string content = 3;
    */
   content: string;
+
+  /**
+   * @generated from field: api.gateway.v1.ContextLevel context_level = 4;
+   */
+  contextLevel: ContextLevel;
 };
 
 /**
@@ -60,6 +65,51 @@ export type QueryResponse = Message<"api.gateway.v1.QueryResponse"> & {
  */
 export const QueryResponseSchema: GenMessage<QueryResponse> = /*@__PURE__*/
   messageDesc(file_proto_gateway_v1_gateway, 1);
+
+/**
+ * @generated from enum api.gateway.v1.ContextLevel
+ */
+export enum ContextLevel {
+  /**
+   * @generated from enum value: CHAT_CONTEXT_UNSPECIFIED = 0;
+   */
+  CHAT_CONTEXT_UNSPECIFIED = 0,
+
+  /**
+   * No additional context provided  
+   *
+   * @generated from enum value: CHAT_CONTEXT_NONE = 1;
+   */
+  CHAT_CONTEXT_NONE = 1,
+
+  /**
+   * Summary of previous interactions
+   *
+   * @generated from enum value: CHAT_CONTEXT_SUMMARY = 2;
+   */
+  CHAT_CONTEXT_SUMMARY = 2,
+
+  /**
+   * Window of recent messages in conversation
+   * including a summarised history before that window
+   *
+   * @generated from enum value: CHAT_CONTEXT_RECENT = 3;
+   */
+  CHAT_CONTEXT_RECENT = 3,
+
+  /**
+   * The entire conversation history
+   *
+   * @generated from enum value: CHAT_CONTEXT_FULL = 4;
+   */
+  CHAT_CONTEXT_FULL = 4,
+}
+
+/**
+ * Describes the enum api.gateway.v1.ContextLevel.
+ */
+export const ContextLevelSchema: GenEnum<ContextLevel> = /*@__PURE__*/
+  enumDesc(file_proto_gateway_v1_gateway, 0);
 
 /**
  * @generated from service api.gateway.v1.GatewayService

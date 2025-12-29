@@ -1,5 +1,5 @@
 import { Chat } from '../../module';
-import { GatewayService } from '../../gen/proto/gateway/v1/gateway_pb';
+import { ContextLevel, GatewayService } from '../../gen/proto/gateway/v1/gateway_pb';
 import { useClientWithCallback } from '../../hooks/rpc';
 import { useRef, useState } from 'preact/hooks';
 import { Message } from '../../components/Chat';
@@ -11,7 +11,7 @@ export function Home() {
 	const [isStreaming, setIsStreaming] = useState(false);
 	const streamingMessageIndexRef = useRef(-1);
 
-	const handleSendMessage = (content) => {
+	const handleSendMessage = (content: string, contextLevel: ContextLevel) => {
 		setMessages(prev => [...prev, { role: 'user', content, isStreaming: false }]);
 
 		setMessages(prev => {
@@ -24,6 +24,7 @@ export function Home() {
 		gatewayServiceClient.query(
 			{
 				content: content,
+				contextLevel: contextLevel
 			},
 			(response) => {
 				if (response?.token) {

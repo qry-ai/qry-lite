@@ -21,11 +21,72 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ContextLevel int32
+
+const (
+	ContextLevel_CHAT_CONTEXT_UNSPECIFIED ContextLevel = 0
+	// No additional context provided
+	ContextLevel_CHAT_CONTEXT_NONE ContextLevel = 1
+	// Summary of previous interactions
+	ContextLevel_CHAT_CONTEXT_SUMMARY ContextLevel = 2
+	// Window of recent messages in conversation
+	// including a summarised history before that window
+	ContextLevel_CHAT_CONTEXT_RECENT ContextLevel = 3
+	// The entire conversation history
+	ContextLevel_CHAT_CONTEXT_FULL ContextLevel = 4
+)
+
+// Enum value maps for ContextLevel.
+var (
+	ContextLevel_name = map[int32]string{
+		0: "CHAT_CONTEXT_UNSPECIFIED",
+		1: "CHAT_CONTEXT_NONE",
+		2: "CHAT_CONTEXT_SUMMARY",
+		3: "CHAT_CONTEXT_RECENT",
+		4: "CHAT_CONTEXT_FULL",
+	}
+	ContextLevel_value = map[string]int32{
+		"CHAT_CONTEXT_UNSPECIFIED": 0,
+		"CHAT_CONTEXT_NONE":        1,
+		"CHAT_CONTEXT_SUMMARY":     2,
+		"CHAT_CONTEXT_RECENT":      3,
+		"CHAT_CONTEXT_FULL":        4,
+	}
+)
+
+func (x ContextLevel) Enum() *ContextLevel {
+	p := new(ContextLevel)
+	*p = x
+	return p
+}
+
+func (x ContextLevel) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ContextLevel) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_gateway_v1_gateway_proto_enumTypes[0].Descriptor()
+}
+
+func (ContextLevel) Type() protoreflect.EnumType {
+	return &file_proto_gateway_v1_gateway_proto_enumTypes[0]
+}
+
+func (x ContextLevel) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ContextLevel.Descriptor instead.
+func (ContextLevel) EnumDescriptor() ([]byte, []int) {
+	return file_proto_gateway_v1_gateway_proto_rawDescGZIP(), []int{0}
+}
+
 type QueryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AccountId     string                 `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
 	SessionId     string                 `protobuf:"bytes,2,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	Content       string                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	ContextLevel  ContextLevel           `protobuf:"varint,4,opt,name=context_level,json=contextLevel,proto3,enum=api.gateway.v1.ContextLevel" json:"context_level,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -79,6 +140,13 @@ func (x *QueryRequest) GetContent() string {
 		return x.Content
 	}
 	return ""
+}
+
+func (x *QueryRequest) GetContextLevel() ContextLevel {
+	if x != nil {
+		return x.ContextLevel
+	}
+	return ContextLevel_CHAT_CONTEXT_UNSPECIFIED
 }
 
 type QueryResponse struct {
@@ -137,16 +205,23 @@ var File_proto_gateway_v1_gateway_proto protoreflect.FileDescriptor
 
 const file_proto_gateway_v1_gateway_proto_rawDesc = "" +
 	"\n" +
-	"\x1eproto/gateway/v1/gateway.proto\x12\x0eapi.gateway.v1\"f\n" +
+	"\x1eproto/gateway/v1/gateway.proto\x12\x0eapi.gateway.v1\"\xa9\x01\n" +
 	"\fQueryRequest\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tR\taccountId\x12\x1d\n" +
 	"\n" +
 	"session_id\x18\x02 \x01(\tR\tsessionId\x12\x18\n" +
-	"\acontent\x18\x03 \x01(\tR\acontent\"I\n" +
+	"\acontent\x18\x03 \x01(\tR\acontent\x12A\n" +
+	"\rcontext_level\x18\x04 \x01(\x0e2\x1c.api.gateway.v1.ContextLevelR\fcontextLevel\"I\n" +
 	"\rQueryResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\"\n" +
-	"\rend_of_stream\x18\x02 \x01(\bR\vendOfStream2X\n" +
+	"\rend_of_stream\x18\x02 \x01(\bR\vendOfStream*\x8d\x01\n" +
+	"\fContextLevel\x12\x1c\n" +
+	"\x18CHAT_CONTEXT_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11CHAT_CONTEXT_NONE\x10\x01\x12\x18\n" +
+	"\x14CHAT_CONTEXT_SUMMARY\x10\x02\x12\x17\n" +
+	"\x13CHAT_CONTEXT_RECENT\x10\x03\x12\x15\n" +
+	"\x11CHAT_CONTEXT_FULL\x10\x042X\n" +
 	"\x0eGatewayService\x12F\n" +
 	"\x05Query\x12\x1c.api.gateway.v1.QueryRequest\x1a\x1d.api.gateway.v1.QueryResponse0\x01B\xbb\x01\n" +
 	"\x12com.api.gateway.v1B\fGatewayProtoP\x01Z=github.com/qry-ai/qry-lite/api/gen/proto/gateway/v1;gatewayv1\xa2\x02\x03AGX\xaa\x02\x0eApi.Gateway.V1\xca\x02\x0eApi\\Gateway\\V1\xe2\x02\x1aApi\\Gateway\\V1\\GPBMetadata\xea\x02\x10Api::Gateway::V1b\x06proto3"
@@ -163,19 +238,22 @@ func file_proto_gateway_v1_gateway_proto_rawDescGZIP() []byte {
 	return file_proto_gateway_v1_gateway_proto_rawDescData
 }
 
+var file_proto_gateway_v1_gateway_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_proto_gateway_v1_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_proto_gateway_v1_gateway_proto_goTypes = []any{
-	(*QueryRequest)(nil),  // 0: api.gateway.v1.QueryRequest
-	(*QueryResponse)(nil), // 1: api.gateway.v1.QueryResponse
+	(ContextLevel)(0),     // 0: api.gateway.v1.ContextLevel
+	(*QueryRequest)(nil),  // 1: api.gateway.v1.QueryRequest
+	(*QueryResponse)(nil), // 2: api.gateway.v1.QueryResponse
 }
 var file_proto_gateway_v1_gateway_proto_depIdxs = []int32{
-	0, // 0: api.gateway.v1.GatewayService.Query:input_type -> api.gateway.v1.QueryRequest
-	1, // 1: api.gateway.v1.GatewayService.Query:output_type -> api.gateway.v1.QueryResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: api.gateway.v1.QueryRequest.context_level:type_name -> api.gateway.v1.ContextLevel
+	1, // 1: api.gateway.v1.GatewayService.Query:input_type -> api.gateway.v1.QueryRequest
+	2, // 2: api.gateway.v1.GatewayService.Query:output_type -> api.gateway.v1.QueryResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_gateway_v1_gateway_proto_init() }
@@ -188,13 +266,14 @@ func file_proto_gateway_v1_gateway_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_gateway_v1_gateway_proto_rawDesc), len(file_proto_gateway_v1_gateway_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_proto_gateway_v1_gateway_proto_goTypes,
 		DependencyIndexes: file_proto_gateway_v1_gateway_proto_depIdxs,
+		EnumInfos:         file_proto_gateway_v1_gateway_proto_enumTypes,
 		MessageInfos:      file_proto_gateway_v1_gateway_proto_msgTypes,
 	}.Build()
 	File_proto_gateway_v1_gateway_proto = out.File

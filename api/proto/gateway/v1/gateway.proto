@@ -2,10 +2,31 @@ syntax = "proto3";
 
 package api.gateway.v1;
 
+enum ContextLevel {
+  CHAT_CONTEXT_UNSPECIFIED = 0;
+
+  // No additional context provided  
+  CHAT_CONTEXT_NONE = 1;
+  
+  // Summary of previous interactions
+  CHAT_CONTEXT_SUMMARY = 2;
+  
+  // Window of recent messages in conversation
+  // including a summarised history before that window
+  CHAT_CONTEXT_RECENT = 3;
+  
+  // The entire conversation history
+  CHAT_CONTEXT_FULL = 4;
+}
+
 message QueryRequest {
   string account_id = 1;
+  
   string session_id = 2;
+  
   string content = 3;
+
+  ContextLevel context_level = 4;
 }
 
 message QueryResponse {
