@@ -100,7 +100,7 @@ const ChatMessage = ({ role, content, isStreaming, error }: Partial<Message>) =>
         ) : (
           <>
             <div className="text-gray-900 dark:text-gray-100 leading-relaxed whitespace-pre-wrap">
-              <Markdown>{content}</Markdown>
+              <Markdown skipHtml>{content}</Markdown>
             </div>
 
             {isStreaming && (
