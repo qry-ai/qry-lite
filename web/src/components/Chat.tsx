@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Search, ArrowUp, Info } from 'lucide-react';
 import Markdown from "react-markdown";
 import { ContextLevel } from "../gen/proto/gateway/v1/gateway_pb";
+import { QryLiteIntroBanner } from "./QryLiteIntroBanner";
 
 const ContextControl = ({ value, onChange, totalMessages }) => {
   const strategies = [
@@ -18,7 +19,8 @@ const ContextControl = ({ value, onChange, totalMessages }) => {
     {
       value: ContextLevel.CHAT_CONTEXT_SUMMARY,
       label: 'Summarized',
-      description: 'Condensed history'
+      description: 'Condensed history',
+      disabled: true
     },
     {
       value: ContextLevel.CHAT_CONTEXT_FULL,
@@ -45,13 +47,16 @@ const ContextControl = ({ value, onChange, totalMessages }) => {
       <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
         {strategies.map((strategy) => (
           <button
+            disabled={strategy.disabled}
             key={strategy.value}
             onClick={() => onChange(strategy.value)}
             title={strategy.description}
             className={
-              value === strategy.value
-                ? 'cursor-pointer px-3 py-1 text-sm font-medium rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm transition-all'
-                : 'cursor-pointer px-3 py-1 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all'
+              strategy.disabled
+                ? 'cursor-not-allowed px-3 py-1 text-sm font-medium rounded-md bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 transition-all'
+                : value === strategy.value
+                  ? 'cursor-pointer px-3 py-1 text-sm font-medium rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm transition-all'
+                  : 'cursor-pointer px-3 py-1 text-sm font-medium rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all'
             }
           >
             {strategy.label}
@@ -223,26 +228,34 @@ export function Chat({ inputDisabled, onSend, messages }: IChatProps) {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-      <div
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-        className="flex-1 px-4 py-8 overflow-y-auto"
-      >
-        <div className="max-w-3xl mx-auto space-y-4">
-          {
-            messages.map((msg, idx) => (
-              <ChatMessage
-                key={idx}
-                role={msg.role}
-                content={msg.content}
-                isStreaming={msg.isStreaming}
-                error={msg.error}
-              />
-            ))
-          }
-          <div className="mt-32" ref={messagesEndRef} />
-        </div>
-      </div>
+      {
+        (messages.length > 0) ? (
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex-1 px-4 py-8 overflow-y-auto"
+          >
+            <div className="max-w-3xl mx-auto space-y-4">
+              {
+                messages.map((msg, idx) => (
+                  <ChatMessage
+                    key={idx}
+                    role={msg.role}
+                    content={msg.content}
+                    isStreaming={msg.isStreaming}
+                    error={msg.error}
+                  />
+                ))
+              }
+              <div className="mt-32" ref={messagesEndRef} />
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 px-4 py-8 flex items-center justify-center text-gray-500 dark:text-gray-400">
+            <QryLiteIntroBanner />
+          </div>
+        )
+      }
 
       <div className="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 py-4">
         <div className="max-w-3xl mx-auto">

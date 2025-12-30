@@ -56,7 +56,7 @@ func main() {
 		option.WithAPIKey(openaiApiKey),
 		option.WithBaseURL(openaiBaseUrl))
 
-	gatewayService := service.NewGatewayServiceHandler(openAiClient)
+	gatewayService := service.NewGatewayServiceHandler(openAiClient, service.NewInMemoryConversationStore())
 	path, handler := gatewayv1connect.NewGatewayServiceHandler(gatewayService)
 	cr.Mount(path, handler)
 
