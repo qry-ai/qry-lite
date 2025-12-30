@@ -2,8 +2,10 @@
 	"name": "@qry-ai/qry-lite-ui",
 	"type": "module",
 	"exports": {
-		".": "./src/module.ts"
+		".": "./src/module.ts",
+		"./dist/style.css": "./dist/style.css"
 	},
+	"files": ["dist"],
 	"peerDependencies": {
 		"preact": "^10"
 	},

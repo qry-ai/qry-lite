@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "preact/hooks";
 import { Search, ArrowUp, Info, BugIcon } from 'lucide-react';
 import Markdown from "react-markdown";
 import { ContextLevel } from "../gen/proto/gateway/v1/gateway_pb";
@@ -73,18 +73,6 @@ export interface Message {
   isStreaming: boolean
   error?: string
 }
-
-const Checkbox = ({ checked, onChange, label }) => (
-  <label className="flex items-center gap-2 cursor-pointer">
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={onChange}
-      className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-2 focus:ring-blue-500"
-    />
-    <span className="text-sm text-gray-700 dark:text-gray-300">{label}</span>
-  </label>
-);
 
 const ChatMessage = ({ role, content, isStreaming, error }: Partial<Message>) => {
   const isUser = role === 'user';
@@ -227,7 +215,7 @@ export function Chat({ inputDisabled, onSend, messages }: IChatProps) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-gray-50 dark:bg-gray-900">
       {
         (messages.length > 0) ? (
           <div
