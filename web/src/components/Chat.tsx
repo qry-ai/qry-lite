@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, ArrowUp, Info } from 'lucide-react';
+import { Search, ArrowUp, Info, BugIcon } from 'lucide-react';
 import Markdown from "react-markdown";
 import { ContextLevel } from "../gen/proto/gateway/v1/gateway_pb";
 import { QryLiteIntroBanner } from "./QryLiteIntroBanner";
@@ -261,12 +261,16 @@ export function Chat({ inputDisabled, onSend, messages }: IChatProps) {
         <div className="max-w-3xl mx-auto">
           <SearchBar onSend={(content) => handleSendMessage(content, contextLevel)} disabled={inputDisabled} />
 
-          <div className="flex flex-row items-center justify-end mt-3 mx-2">
+          <div className="flex flex-row items-center justify-between w-full mt-3 mx-2">
             <ContextControl
               value={contextLevel}
               onChange={setContextLevel}
               totalMessages={messages.length}
             />
+
+            <div className="flex items-center text-[8pt] text-gray-600 dark:text-gray-400 italic">
+              <a className="inline-flex items-center gap-1" href='https://github.com/qry-ai/feedback/issues/new' target='_blank'>Share Feedback / Report Issue <BugIcon size={12} /></a>
+            </div>
           </div>
         </div>
       </div>
