@@ -7,6 +7,12 @@ export default defineConfig({
 	build: {
 		cssCodeSplit: false,
 		rollupOptions: {
+			external: [
+				"preact",
+				"preact/hooks",
+				"preact/jsx-runtime"
+			]
+			,
 			output: {
 				assetFileNames: (assetInfo) => {
 					if (assetInfo.name === 'style.css') return 'style.css';
